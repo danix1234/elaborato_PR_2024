@@ -1,7 +1,7 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*-
 
-from lib.utilities import randbyte
+from lib.utilities import randbyte, checksum
 
 
 def ping(ip_addr: str) -> bytes:
@@ -19,10 +19,15 @@ def ping(ip_addr: str) -> bytes:
     - identifier and sequence are used to know what a ICMP answers to
     - payload data is optional data of len multiple of 4B
     """
-    # fields for ICMP protocol (i will not add any )
+    # initialize ICMP raw message
     type = bytes([8])
     code = bytes([0])
     chksum = bytes([0], [0])  # will be calculated later on
     id = bytes([randbyte(), randbyte()])
     seq = bytes([randbyte(), randbyte()])
-    return
+    chksum = checksum(type + code + chksum + id + seq)
+    ICMP_msg = type + code + chksum + id + seq
+
+    # create a ipv4 socket, which uses ICMP protocol
+
+    return None
