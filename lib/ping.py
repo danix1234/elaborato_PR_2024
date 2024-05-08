@@ -29,8 +29,9 @@ def check_status(ip_addr):
     chksum = bytes([0, 0])  # will be calculated later on
     id = bytes([randbyte(), randbyte()])
     seq = bytes([randbyte(), randbyte()])
-    chksum = checksum(type + code + chksum + id + seq)
-    ICMP_msg = type + code + chksum + id + seq
+    payload = bytes([randbyte() for i in range(40)])
+    chksum = checksum(type + code + chksum + id + seq + payload)
+    ICMP_msg = type + code + chksum + id + seq + payload
 
     # create a ipv4 socket, which uses ICMP protocol
     with sk.socket(sk.AF_INET, sk.SOCK_RAW, sk.IPPROTO_ICMP) as ipsocket:
