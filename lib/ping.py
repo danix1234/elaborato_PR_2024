@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import socket as sk
-from utilities import randbyte, checksum
+from lib.utilities import randbyte, checksum
 
 
-def ping(ip_addr):
+def check_status(ip_addr):
     """
     send ping request to ip address specified, using ICMP protocol (type 8)
 
@@ -58,7 +58,3 @@ def ping(ip_addr):
                 return 'reply arrived but refers to different ping request'
         except Exception as error:
             return str(error)
-
-
-if __name__ == "__main__":
-    print(ping('8.8.8.8'))
