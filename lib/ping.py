@@ -5,7 +5,7 @@ import socket as sk
 from utilities import randbyte, checksum
 
 
-def ping(ip_addr: str) -> bytes | str:
+def ping(ip_addr: str) -> None | str:
     """
     send ping request to ip address specified, using ICMP protocol (type 8)
 
@@ -47,7 +47,8 @@ def ping(ip_addr: str) -> bytes | str:
             code_answer = int(IMCP_answer[1])
             id_answer = IMCP_answer[4:6]
             seq_answer = IMCP_answer[6:8]
-            print(type_answer, code_answer, id_answer, seq_answer, id, seq)
+
+            # check for trasmission errors
             if type_answer != 0:
                 return 'reply arrived but of wrong type (type: ' + type_answer + ', code:' + code_answer + ')'
             if id_answer != id or seq_answer != seq:
