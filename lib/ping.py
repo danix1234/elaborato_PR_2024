@@ -45,13 +45,16 @@ def ping(ip_addr: str) -> bytes | str:
             IMCP_answer = answer[helen:]
             type_answer = int(IMCP_answer[0])
             code_answer = int(IMCP_answer[1])
+            id_answer = IMCP_answer[4:6]
+            seq_answer = IMCP_answer[6:8]
+            print(type_answer, code_answer, id_answer, seq_answer, id, seq)
             if type_answer != 0:
-                return 'reply arrived but with problems (type: ' + type_answer + ', code:' + code_answer + ')'
-            return None
+                return 'reply arrived but of wrong type (type: ' + type_answer + ', code:' + code_answer + ')'
+            if id_answer != id or seq_answer != seq:
+                return 'reply arrived but refers to different ping request'
         except Exception as error:
             return str(error)
 
-    return 'unknown error'
 
-
-ping('8.8.8.8')
+if __name__ == "__main__":
+    print(ping('8.8.8.8'))
