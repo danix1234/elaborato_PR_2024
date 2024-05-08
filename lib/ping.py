@@ -20,6 +20,9 @@ def ping(ip_addr: str) -> bytes | str:
     - identifier and sequence are used to know what a ICMP answers to
     - payload data is optional data of len multiple of 4B
     """
+    # costants
+    TIMEOUT = 5
+
     # initialize ICMP raw message
     type = bytes([8])
     code = bytes([0])
@@ -31,10 +34,24 @@ def ping(ip_addr: str) -> bytes | str:
 
     # create a ipv4 socket, which uses ICMP protocol
     with sk.socket(sk.AF_INET, sk.SOCK_RAW, sk.IPPROTO_ICMP) as ipsocket:
-        ipsocket.sendto(ICMP_msg, (ip_addr, 55_555))
-        ipsocket.recvfrom(2048)[0].hex()
+        ipsocket.settimeout(TIMEOUT)
+        try:
+            ipsocket.sendto(ICMP_msg, (ip_addr, 55_555))
+            answer = ipsocket.recv(2048)
 
-    return None
+            # get important parts out of the entire message
+            # Note: answer includes also IP header
+            helen = int(answer[0] & 0xf) * 4
+            IMCP_answer = answer[helen:]
+            type_answer = int(IMCP_answer[0])
+            code_answer = int(IMCP_answer[1])
+            if type_answer != 0:
+                return 'reply arrived but with problems (type: ' + type_answer + ', code:' + code_answer + ')'
+            return None
+        except Exception as error:
+            return str(error)
+
+    return 'unknown error'
 
 
 ping('8.8.8.8')
