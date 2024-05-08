@@ -12,6 +12,9 @@ def randbyte():
 
 
 def add_carry(x, y):
+    """
+    sum variable of two bytes with an integer
+    """
     x_int = int.from_bytes(x, 'big')
     sum = x_int + y
     return sum

@@ -7,11 +7,12 @@ from lib.ping import check_status
 
 ip_addr = sys.argv[1:]
 
+# quit if no ip are passed from command line
 if len(ip_addr) == 0:
     print('no ip address where passed')
     exit(0)
 
-# update all ip statuses
+# check all ip statuses
 for i in range(len(ip_addr)):
     ip_status = check_status(ip_addr[i])
     if ip_status is None:

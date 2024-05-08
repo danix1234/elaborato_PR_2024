@@ -20,7 +20,7 @@ def check_status(ip_addr):
     - identifier and sequence are used to know what a ICMP answers to
     - payload data is optional data of len multiple of 4B
     """
-    # costants
+    # set socket timeout to low value because ping fail very often
     TIMEOUT = 5
 
     # initialize ICMP raw message
@@ -37,17 +37,18 @@ def check_status(ip_addr):
     with sk.socket(sk.AF_INET, sk.SOCK_RAW, sk.IPPROTO_ICMP) as ipsocket:
         ipsocket.settimeout(TIMEOUT)
         try:
+            # send a ping and receive the answer
             ipsocket.sendto(ICMP_msg, (ip_addr, 55_555))
             answer = ipsocket.recv(2048)
 
             # get important parts out of the entire message
             # Note: answer includes also IP header
             helen = int(answer[0] & 0xf) * 4
-            IMCP_answer = answer[helen:]
-            type_answer = int(IMCP_answer[0])
-            code_answer = int(IMCP_answer[1])
-            id_answer = IMCP_answer[4:6]
-            seq_answer = IMCP_answer[6:8]
+            ICMP_answer = answer[helen:]
+            type_answer = int(ICMP_answer[0])
+            code_answer = int(ICMP_answer[1])
+            id_answer = ICMP_answer[4:6]
+            seq_answer = ICMP_answer[6:8]
 
             # check for trasmission errors
             if type_answer != 0:
