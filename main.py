@@ -15,6 +15,6 @@ if len(ip_addr) == 0:
 for i in range(len(ip_addr)):
     ip_status = check_status(ip_addr[i])
     if ip_status is None:
-        print(ip_addr[i] + ': is on')
+        print(ip_addr[i] + ': is online')
     else:
-        print(ip_addr[i] + ': ' + ip_status)
+        print(ip_addr[i] + ': is offline ---> ' + ip_status)
