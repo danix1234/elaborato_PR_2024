@@ -4,20 +4,20 @@
 import random
 
 
-def randbyte() -> int:
+def randbyte():
     """
     return random value of lenght 1 byte
     """
     return random.randint(0, 0xff)
 
 
-def add_carry(x: bytes, y: int) -> int:
+def add_carry(x, y):
     x_int = int.from_bytes(x, 'big')
     sum = x_int + y
     return sum
 
 
-def checksum(raw_msg: bytes) -> bytes:
+def checksum(raw_msg):
     """
     compute internet checksum on a sequence of bytes,
     and return two bytes representing the checksum
