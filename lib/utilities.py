@@ -14,7 +14,7 @@ def randbyte() -> int:
 def add_carry(x: bytes, y: int) -> int:
     x_int = int.from_bytes(x, 'big')
     sum = x_int + y
-    return (sum & 0xff_ff) + (sum & 0x1_00_00)
+    return sum
 
 
 def checksum(raw_msg: bytes) -> bytes:
@@ -25,5 +25,10 @@ def checksum(raw_msg: bytes) -> bytes:
     chksum = 0
     for i in range(0, len(raw_msg), 2):
         elem = raw_msg[i:i+2]
-        chksum += add_carry(elem, chksum)
-    return ~chksum
+        chksum = add_carry(elem, chksum)
+    sum = chksum & 0xffff
+    carry = chksum >> 16
+    chksum = sum + carry
+    chkr = chksum & 0xff
+    chkl = (chksum & 0xff00) >> 8
+    return bytes([abs(0xff - chkl), abs(0xff-chkr)])
