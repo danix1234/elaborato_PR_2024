@@ -6,14 +6,14 @@ from lib.utilities import randbyte
 
 def ping(ip_addr: str) -> bytes:
     """
-    ICMP protocol is specified as follows (for ping requests):
+    send ping request to ip address specified, using ICMP protocol (type 8)
 
+    ICMP protocol is specified as follows (for ping requests):
     ------------------------------------------
     | type (1B) | code (1B) | checksum (2B)  |
     | identifier (2B) | sequence number (2B) |
              payload data (4B*n)
     ------------------------------------------
-
     - type and code specify the type of ICMP
     - checksum is the internet checksum on the entire ICMP packet
     - identifier and sequence are used to know what a ICMP answers to

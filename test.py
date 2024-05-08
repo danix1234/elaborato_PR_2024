@@ -1,5 +1,6 @@
 #!/bin/env python3
 
+import socket
 import socket as sk
 import random
 
@@ -29,7 +30,10 @@ def build_ping():
     return header_nochksum + chksum + data
 
 
-with sk.socket(sk.AF_INET, sk.SOCK_RAW, IP_PROTOCOL) as ipsocket:
-    # il valore della porta viene ignorato!
-    ipsocket.sendto(build_ping(), (IP_ADDR, 50000))
-    print(ipsocket.recvfrom(2048)[0].hex())
+# with sk.socket(sk.AF_INET, sk.SOCK_RAW, IP_PROTOCOL) as ipsocket:
+#     # il valore della porta viene ignorato!
+#     ipsocket.sendto(build_ping(), (IP_ADDR, 50000))
+#     print(ipsocket.recvfrom(2048)[0].hex())
+
+print(sk.IPPROTO_IP)
+print(sk.IPPROTO_ICMP)
