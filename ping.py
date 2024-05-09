@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import socket as sk
-from lib.utilities import randbyte, checksum
+from utilities import randbyte, checksum
 
 
 def check_status(ip_addr):

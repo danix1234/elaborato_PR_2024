@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from lib.ping import check_status
+from ping import check_status
 
 
 ip_addr = sys.argv[1:]
